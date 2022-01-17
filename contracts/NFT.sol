@@ -1,59 +1,26 @@
-// SPDX-License-Identifier: MIT
-
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "base64-sol/base64.sol";
 
 contract NFT is ERC721URIStorage {
     using Counters for Counters.Counter;
-    Counters.Counter private tokenId;
-    event createdNFT(uint256 indexed _tokenId, string url);
+    Counters.Counter private _tokenIds;
 
-    constructor() ERC721("NFT", "imgNFT") {}
+    address contractAddress;
 
-    function createNFT(string memory _url) public {
-        tokenId.increment();
-        uint256 newTokenID = tokenId.current();
-
-        _safeMint(msg.sender, newTokenID);
-        string memory img = imgToURL(_url);
-
-        _setTokenURI(newTokenID, jsonResponse(img));
-
-        emit createdNFT(newTokenID, _url);
+    constructor(address marketplaceAddress) ERC721("NFT", "NFTMarket") {
+        contractAddress = marketplaceAddress;
     }
 
-    function imgToURL(string memory _url) public pure returns (string memory) {
-        string memory baseURL = "data:image/jpg;base64,";
-        string memory encodedUrl = Base64.encode(
-            bytes(string(abi.encodePacked(_url)))
-        );
-        return string(abi.encodePacked(baseURL, encodedUrl));
-    }
-
-    function jsonResponse(string memory imageURI)
-        public
-        pure
-        returns (string memory)
-    {
-        return
-            string(
-                abi.encodePacked(
-                    "data:application/json;base64,",
-                    Base64.encode(
-                        bytes(
-                            abi.encodePacked(
-                                '{"name":"',
-                                "NFT",
-                                '", "description":"", "attributes":"", "image":"',
-                                imageURI,
-                                '"}'
-                            )
-                        )
-                    )
-                )
-            );
+    function mintToken(string memory tokenURI) public returns (uint256) {
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+        _mint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+        setApprovalForAll(contractAddress, true);
+        return newItemId;
     }
 }

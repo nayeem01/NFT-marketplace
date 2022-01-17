@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-ethers");
 require("hardhat-deploy");
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
@@ -15,7 +16,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
     defaultNetwork: "hardhat",
     networks: {
-        hardhat: { gas: 10000000 },
+        hardhat: {},
         localhost: {
             url: "http://127.0.0.1:8545",
         },

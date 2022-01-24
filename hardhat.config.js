@@ -1,6 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-ethers");
-require("hardhat-deploy");
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
     const accounts = await hre.ethers.getSigners();
@@ -16,22 +15,25 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
     defaultNetwork: "hardhat",
     networks: {
-        hardhat: {},
-        localhost: {
-            url: "http://127.0.0.1:8545",
+        hardhat: {
+            chainId: 1337,
         },
     },
-    solidity: "0.8.4",
-    namedAccounts: {
-        deployer: {
-            default: 0,
+    solidity: {
+        version: "0.8.4",
+        settings: {
+            optimizer: {
+                enabled: true,
+                runs: 200,
+            },
         },
     },
+
     paths: {
         sources: "./contracts",
         tests: "./test",
-        cache: "./cache",
-        artifacts: "./artifacts",
+        cache: "./src/cache",
+        artifacts: "./src/artifacts",
     },
     mocha: {
         timeout: 20000,

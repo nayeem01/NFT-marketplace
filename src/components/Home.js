@@ -9,7 +9,7 @@ import Web3Modal from "web3modal";
 import { nftaddress, nftmarketaddress } from "../nftAddresses";
 
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json";
-import NFTMarket from "../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
+import NFTMarket from "../artifacts/contracts/Market.sol/NFTMarket.json";
 
 const Home = () => {
     const [nfts, setNFts] = useState([]);
@@ -30,7 +30,7 @@ const Home = () => {
             NFTMarket.abi,
             provider,
         );
-        const data = await marketContract.fetchMarketTokens();
+        const data = await marketContract.fetchMarketItems();
 
         const items = await Promise.all(
             data.map(async (i) => {
@@ -82,7 +82,8 @@ const Home = () => {
             },
         );
     }
-
+    if (loadingState === "loaded" && !nfts.length)
+        return <h1>No items in marketplace</h1>;
     return (
         <Container>
             <Row className="justify-content-md-center">

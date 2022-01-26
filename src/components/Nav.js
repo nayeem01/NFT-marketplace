@@ -35,13 +35,8 @@ const Nav = () => {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">
-                                Pricing
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">
-                                About
+                            <a className="nav-link" href="mynfts">
+                                MyNFTs
                             </a>
                         </li>
                     </ul>

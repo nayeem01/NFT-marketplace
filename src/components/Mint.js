@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Col, Button } from "react-bootstrap";
 import { ethers } from "ethers";
 import { useState } from "react";
 import Web3Modal from "web3modal";
@@ -87,95 +87,82 @@ export default function MintItem() {
             { value: listingPrice },
         );
         await transaction.wait();
-        //nav("/");
+        nav("/");
     }
 
     return (
         <Container className="flex justify-center">
-            <form onSubmit={createMarket}>
-                <fieldset>
-                    <div className="form-group">
-                        <label className="form-label mt-4">Name</label>
-                        <input
-                            className="form-control"
-                            id="assetname"
-                            aria-describedby="emailHelp"
-                            placeholder="name"
-                            onChange={(e) => {
-                                e.preventDefault();
-                                updateFormInput({
-                                    ...formInput,
-                                    name: e.target.value,
-                                });
-                            }}
-                        />
-                    </div>
+            <Col>
+                <div className="form-group">
+                    <label className="form-label mt-4">Name</label>
+                    <input
+                        className="form-control"
+                        id="assetname"
+                        aria-describedby="emailHelp"
+                        placeholder="name"
+                        onChange={(e) => {
+                            e.preventDefault();
+                            updateFormInput({
+                                ...formInput,
+                                name: e.target.value,
+                            });
+                        }}
+                    />
+                </div>
 
-                    <div className="form-group">
-                        <label
-                            htmlFor="Description"
-                            className="form-label mt-4"
-                        >
-                            Description
-                        </label>
+                <div className="form-group">
+                    <label htmlFor="Description" className="form-label mt-4">
+                        Description
+                    </label>
 
-                        <textarea
-                            className="form-control"
-                            id="Description"
-                            rows="3"
-                            onChange={(e) => {
-                                e.preventDefault();
-                                updateFormInput({
-                                    ...formInput,
-                                    description: e.target.value,
-                                });
-                            }}
-                        />
-                    </div>
+                    <textarea
+                        className="form-control"
+                        id="Description"
+                        rows="3"
+                        onChange={(e) => {
+                            e.preventDefault();
+                            updateFormInput({
+                                ...formInput,
+                                description: e.target.value,
+                            });
+                        }}
+                    />
+                </div>
+                <div className="form-group">
+                    <label className="form-label mt-4">Price</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        id="assetname"
+                        aria-describedby="emailHelp"
+                        placeholder="Price"
+                        onChange={(e) => {
+                            e.preventDefault();
+                            updateFormInput({
+                                ...formInput,
+                                price: e.target.value,
+                            });
+                        }}
+                    />
+                </div>
 
-                    <div className="form-group">
-                        <label className="form-label mt-4">Price</label>
-                        <input
-                            type="number"
-                            className="form-control"
-                            id="assetname"
-                            aria-describedby="emailHelp"
-                            placeholder="Price"
-                            onChange={(e) => {
-                                e.preventDefault();
-                                updateFormInput({
-                                    ...formInput,
-                                    price: e.target.value,
-                                });
-                            }}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label mt-4">
-                            choose file for minting
-                        </label>
-                        <input
-                            className="form-control"
-                            type="file"
-                            id="formFile"
-                            onChange={onChange}
-                        />
-                        {fileUrl && (
-                            <img
-                                name="Asset"
-                                className="rounded mt-4"
-                                width="350px"
-                                src={fileUrl}
-                            />
-                        )}
-                    </div>
-
-                    <button type="submit" className="btn btn-primary">
-                        Mint
-                    </button>
-                </fieldset>
-            </form>
+                <input
+                    type="file"
+                    name="Asset"
+                    className="form-control"
+                    onChange={onChange}
+                />
+                {fileUrl && (
+                    <img className="rounded mt-4" width="350" src={fileUrl} />
+                )}
+                <Button
+                    onClick={createMarket}
+                    type="submit"
+                    className="btn btn-primary"
+                >
+                    Mint
+                </Button>
+            </Col>
         </Container>
     );
 }
